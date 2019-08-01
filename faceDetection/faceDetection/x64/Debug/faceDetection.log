@@ -1,0 +1,7 @@
+﻿  faceDetectionCode.cpp
+c:\users\perception\desktop\test project\face detection test\facedetection\facedetection\facedetectioncode.cpp(93): warning C4244: 'argument': conversion from 'float' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+  faceDetection.vcxproj -> C:\Users\Perception\Desktop\Test Project\Face Detection Test\faceDetection\x64\Debug\faceDetection.exe
