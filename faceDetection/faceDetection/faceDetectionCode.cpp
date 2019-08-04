@@ -13,9 +13,9 @@ Mat detectAndDisplay(Mat image);
 
 
 String face_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_alt.xml";
-String eyes_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml";
+//String eyes_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
-CascadeClassifier eyes_cascade;
+//CascadeClassifier eyes_cascade;
 string window_name = "Capture - Face detection";
 RNG rng(12345);
 
@@ -26,25 +26,25 @@ int main(int argc, const char** argv)
 
 	//-- 1. Load the cascades
 	if (!face_cascade.load(face_cascade_name)) { printf("--(!)Error loading\n"); return -1; };
-	if (!eyes_cascade.load(eyes_cascade_name)) { printf("--(!)Error loading\n"); return -1; };
+	//if (!eyes_cascade.load(eyes_cascade_name)) { printf("--(!)Error loading\n"); return -1; };
 
 	//-- 2. Read the video stream
 	VideoCapture capture1, capture2;
-	capture1.open(0);
-	//capture2.open(1);
+	capture1.open(2);
+	capture2.open(1);
 
 	while (true)
 	{
 		capture1 >> frame1;
-		//capture2 >> frame2;
+		capture2 >> frame2;
 
 		//-- 3. Apply the classifier to the frame
 		if (!frame1.empty()) //&& !frame2.empty())
 		{
 			detectAndDisplay(frame1);
-			//detectAndDisplay(frame2);
+			detectAndDisplay(frame2);
 			imshow("Camera 1", frame1);
-			//imshow("Camera 2", frame2);
+			imshow("Camera 2", frame2);
 		}
 		else
 		{
@@ -63,10 +63,10 @@ Mat detectAndDisplay(Mat image)
 
 	Mat frame = image;
 	std::vector<Rect> faces;
-	std::vector<Rect> eyes;
+	//std::vector<Rect> eyes;
 	Mat frame_gray;
 
-	int inHeight = 200;
+	int inHeight = 120;
 	int inWidth = 0;
 	int frameHeight = frame.rows;
 	int frameWidth = frame.cols;
@@ -82,7 +82,7 @@ Mat detectAndDisplay(Mat image)
 	equalizeHist(frame_gray, frame_gray);
 
 	//-- Detect faces
-	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(70, 70));
+	face_cascade.detectMultiScale(frame_gray, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
 	for (size_t i = 0; i < faces.size(); i++)
 	{
@@ -99,7 +99,7 @@ Mat detectAndDisplay(Mat image)
 		Mat faceROI = frame_gray(faces[i]);
 
 		//-- In each face, detect eyes
-		eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(1, 1));
+		eyes_cascade.detectMultiScale(faceROI, eyes, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
 
 		for (size_t j = 0; j < eyes.size(); j++)
 		{
